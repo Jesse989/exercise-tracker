@@ -69,15 +69,19 @@ const allUsers = async (done) => {
 
 //
 const getUserAndLog = async (query) => {
+  const userId = query.userId;
+  const from = (query.from) ? query.from : 0;
+  const to = (query.to) ? query.to : Date.now();
+  const limit = (query.limit) ? query.limit: 10000000;
   try {
-    const user = await Person.findById(query.userId)
+    const user = await Person.findById(userId)
       .populate({
         path: 'exerciseLog',
         model: 'Exercise',
         match: {
           date: {
-            $gt: query.from,
-            $lt: query.to
+            $gt: from,
+            $lt: to
           }
         },
         options: { limit: query.limit }
@@ -152,6 +156,7 @@ app.post('/api/exercise/add', (req, res) => {
 
 // get exercise log for given user:
 app.get('/api/exercise/log', async (req, res) => {
+  if (!req.query.userId) return res.status(500).json({"error": "enter valid userId"})
   try {
     const userAndLog = await getUserAndLog(req.query);
     const count = userAndLog.exerciseLog.length;
@@ -161,9 +166,9 @@ app.get('/api/exercise/log', async (req, res) => {
   }
 })
 
-
+app.use(express.static('public'));
 app.get('/',  function (req, res) {
-  res.sendFile(__dirusername + '/views/index.html');
+  res.sendFile(__dirname + '/views/index.html');
 })
 
 const listener = app.listen(process.env.PORT || 3000, () => {
