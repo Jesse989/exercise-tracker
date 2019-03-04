@@ -1,0 +1,20 @@
+{
+  "name": "exercise",
+  "version": "1.0.0",
+  "description": "exercise tracker micro-service",
+  "main": "server.js",
+  "repository": "https://github.com/Jesse989/exercise-tracker.git",
+  "author": "Jesse",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "mongodb": "^3.1.13",
+    "mongoose": "^5.4.16"
+  },
+  "dependencies": {
+    "morgan": "^1.9.1"
+  }
+}
